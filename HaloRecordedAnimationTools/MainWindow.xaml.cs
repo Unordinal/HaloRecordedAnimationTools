@@ -7,6 +7,7 @@ using HaloRecordedAnimationTools.Helpers;
 using HaloRecordedAnimationTools.IO;
 using HaloRecordedAnimationTools.Blam;
 using System.IO;
+using System.ComponentModel;
 
 namespace HaloRecordedAnimationTools
 {
@@ -15,6 +16,7 @@ namespace HaloRecordedAnimationTools
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SettingsWindow settingsWindow = new SettingsWindow();
         private bool attached = false;
         private int tickRate;
         private DispatcherTimer updateTimer;
@@ -28,6 +30,7 @@ namespace HaloRecordedAnimationTools
         {
             InitializeComponent();
             keyListener = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, CheckKeyDown, Dispatcher);
+            MessageBox.Show(settingsWindow.RecordKey.ToString());
         }
 
         private void CheckKeyDown(object sender, EventArgs e)
@@ -152,5 +155,19 @@ namespace HaloRecordedAnimationTools
         }
 
         private void MiExit_Click(object sender, RoutedEventArgs e) => Close();
+
+        private void MiSettings_Click(object sender, RoutedEventArgs e)
+        {
+            settingsWindow.Show();
+            if (settingsWindow.WindowState == WindowState.Minimized)
+                settingsWindow.WindowState = WindowState.Normal;
+            settingsWindow.Focus();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            settingsWindow.Close();
+            Application.Current.Shutdown();
+        }
     }
 }

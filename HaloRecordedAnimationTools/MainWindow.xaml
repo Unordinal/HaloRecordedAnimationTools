@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Halo Recorded Animation Tools" Height="450" Width="771" MouseDown="Window_MouseDown">
+        Title="Halo Recorded Animation Tools" Height="450" Width="771" MouseDown="Window_MouseDown" Closing="Window_Closing">
     <Grid x:Name="mainGrid" Focusable="True" FocusVisualStyle="{x:Null}">
         <Menu x:Name="menu" VerticalAlignment="Top" Height="22">
             <MenuItem Header="_File" Height="22">
@@ -15,6 +15,7 @@
                 <Separator/>
                 <MenuItem x:Name="miExit" Header="_Exit" Click="MiExit_Click"/>
             </MenuItem>
+            <MenuItem x:Name="miSettings" Header="_Settings" Click="MiSettings_Click"/>
         </Menu>
     </Grid>
 </Window>
