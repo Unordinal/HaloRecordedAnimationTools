@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:HaloRecordedAnimationTools"
         xmlns:Controls="clr-namespace:HaloRecordedAnimationTools.Controls" x:Class="HaloRecordedAnimationTools.SettingsWindow"
         mc:Ignorable="d"
-        Title="Settings" Height="125" Width="155">
+        Title="Settings" Height="150.922" Width="200">
     <Grid>
-        <Label x:Name="label" Content="Record Hotkey" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="Record Hotkey" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Padding="0,5,5,5"/>
 
-        <Controls:HotkeyBox x:Name="hbHotkey" HorizontalAlignment="Left" Margin="103,14,0,0" VerticalAlignment="Top" Height="22" Width="34"/>
+        <Controls:HotkeyBox x:Name="hbHotkey" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="77" Margin="98,14,0,0"/>
+        <CheckBox x:Name="checkBox" Content="Only While Focused" HorizontalAlignment="Left" Margin="50,41,0,0" VerticalAlignment="Top" IsChecked="True"/>
 
     </Grid>
 </Window>

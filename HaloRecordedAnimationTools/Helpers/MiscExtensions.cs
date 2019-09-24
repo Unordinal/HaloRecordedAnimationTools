@@ -64,9 +64,19 @@ namespace HaloRecordedAnimationTools.Helpers
             return procId == activeProcId;
         }
 
+        /// <summary>
+        /// Gets the currently focused process.
+        /// </summary>
+        public static Process FocusedApplication()
+        {
+            IntPtr hWnd = GetForegroundWindow();
+            GetWindowThreadProcessId(hWnd, out int procId);
+            return Process.GetProcessById(procId);
+        }
+
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
     }
 }

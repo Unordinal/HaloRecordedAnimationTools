@@ -57,9 +57,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Blam\Constants.cs" />
+    <Compile Include="Helpers\ByteConversions.cs" />
     <Compile Include="Helpers\EndianReaderExtensions.cs" />
     <Compile Include="Helpers\Keybinds.cs" />
     <Compile Include="Helpers\Memory.cs" />
+    <Compile Include="IO\Endian.cs" />
     <Compile Include="IO\EndianReader.cs" />
     <Compile Include="Blam\BaseTypes.cs" />
     <Compile Include="Helpers\MiscExtensions.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="Blam\Scenario.cs" />
     <Compile Include="Blam\ScenarioTypes.cs" />
     <Compile Include="Helpers\TextBoxExtensions.cs" />
+    <Compile Include="IO\EndianWriter.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>

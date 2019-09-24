@@ -10,10 +10,6 @@ namespace HaloRecordedAnimationTools.IO
     {
         #region Properties
         /// <summary>
-        /// Defines endianness constants.
-        /// </summary>
-        public enum Endian { Little, Big }
-        /// <summary>
         /// The underlying stream's endianness.
         /// </summary>
         public Endian Endianness { get; set; } = Endian.Little;
@@ -37,43 +33,43 @@ namespace HaloRecordedAnimationTools.IO
         #endregion
 
         #region Read Values
-        public override ushort ReadUInt16()
-        {
-            if (EndiansMatch())
-                return base.ReadUInt16();
-            return BitConverter.ToUInt16(ReadBytesRequired(sizeof(ushort)).Reverse(), 0);
-        }
         public override short ReadInt16()
         {
             if (EndiansMatch())
                 return base.ReadInt16();
-            return BitConverter.ToInt16(ReadBytesRequired(sizeof(short)).Reverse(), 0);
+            return ReadBytesRequired(sizeof(short)).Reverse().ToInt16();
         }
-
-        public override uint ReadUInt32()
+        public override ushort ReadUInt16()
         {
             if (EndiansMatch())
-                return base.ReadUInt32();
-            return BitConverter.ToUInt32(ReadBytesRequired(sizeof(uint)).Reverse(), 0);
+                return base.ReadUInt16();
+            return ReadBytesRequired(sizeof(ushort)).Reverse().ToUInt16();
         }
+
         public override int ReadInt32()
         {
             if (EndiansMatch())
                 return base.ReadInt32();
-            return BitConverter.ToInt32(ReadBytesRequired(sizeof(int)).Reverse(), 0);
+            return ReadBytesRequired(sizeof(int)).Reverse().ToInt32();
         }
-
-        public override ulong ReadUInt64()
+        public override uint ReadUInt32()
         {
             if (EndiansMatch())
-                return base.ReadUInt64();
-            return BitConverter.ToUInt64(ReadBytesRequired(sizeof(ulong)).Reverse(), 0);
+                return base.ReadUInt32();
+            return ReadBytesRequired(sizeof(uint)).Reverse().ToUInt32();
         }
+
         public override long ReadInt64()
         {
             if (EndiansMatch())
                 return base.ReadInt64();
-            return BitConverter.ToInt64(ReadBytesRequired(sizeof(long)).Reverse(), 0);
+            return ReadBytesRequired(sizeof(long)).Reverse().ToInt64();
+        }
+        public override ulong ReadUInt64()
+        {
+            if (EndiansMatch())
+                return base.ReadUInt64();
+            return ReadBytesRequired(sizeof(ulong)).Reverse().ToUInt64();
         }
 
         public override float ReadSingle()

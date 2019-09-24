@@ -16,7 +16,7 @@ namespace HaloRecordedAnimationTools
     /// </summary>
     public partial class MainWindow : Window
     {
-        private SettingsWindow settingsWindow = new SettingsWindow();
+        private SettingsWindow settingsWindow;
         private bool attached = false;
         private int tickRate;
         private DispatcherTimer updateTimer;
@@ -30,7 +30,6 @@ namespace HaloRecordedAnimationTools
         {
             InitializeComponent();
             keyListener = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, CheckKeyDown, Dispatcher);
-            MessageBox.Show(settingsWindow.RecordKey.ToString());
         }
 
         private void CheckKeyDown(object sender, EventArgs e)
@@ -132,6 +131,7 @@ namespace HaloRecordedAnimationTools
             Scenario scnr;
             using (EndianReader r = new EndianReader(File.Open(filePath, FileMode.Open)))
             {
+                r.Endianness = Endian.Big;
                 scnr = new Scenario(r);
             }
         }
@@ -158,6 +158,9 @@ namespace HaloRecordedAnimationTools
 
         private void MiSettings_Click(object sender, RoutedEventArgs e)
         {
+            if (settingsWindow == null)
+                settingsWindow = new SettingsWindow();
+
             settingsWindow.Show();
             if (settingsWindow.WindowState == WindowState.Minimized)
                 settingsWindow.WindowState = WindowState.Normal;
@@ -166,7 +169,7 @@ namespace HaloRecordedAnimationTools
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            settingsWindow.Close();
+            settingsWindow?.Close();
             Application.Current.Shutdown();
         }
     }

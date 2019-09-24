@@ -33,18 +33,16 @@ namespace HaloRecordedAnimationTools
         public SettingsWindow()
         {
             InitializeComponent();
+            InitializeControls();
+        }
+
+        private void InitializeControls()
+        {
             hbHotkey.Key = RecordKey;
             hbHotkey.HotkeyChanged += HbHotkey_HotkeyChanged;
-            Closing += SettingsWindow_Closing;
         }
 
         private void HbHotkey_HotkeyChanged(object sender, KeyEventArgs e) =>
             RecordKey = e.Key;
-
-        private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-            Hide();
-        }
     }
 }

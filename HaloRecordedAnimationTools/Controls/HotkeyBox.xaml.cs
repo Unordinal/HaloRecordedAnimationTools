@@ -28,6 +28,7 @@ namespace HaloRecordedAnimationTools.Controls
                 }
             }
         }
+
         public HotkeyBox()
         {
             InitializeComponent();
