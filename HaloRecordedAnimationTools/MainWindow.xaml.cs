@@ -158,7 +158,7 @@ namespace HaloRecordedAnimationTools
 
         private void MiSettings_Click(object sender, RoutedEventArgs e)
         {
-            if (settingsWindow == null)
+            if (settingsWindow == null || !settingsWindow.IsLoaded)
                 settingsWindow = new SettingsWindow();
 
             settingsWindow.Show();

@@ -32,14 +32,15 @@ namespace HaloRecordedAnimationTools.Helpers
 
         public static int ReadPaletteDataLength<T>(this EndianReader r, int blockCount)
         {
-            Console.WriteLine($"Block Count: {blockCount}");
+            Console.WriteLine($"\tBlock Count: {blockCount}");
             int dataLength = 0;
             for (int i = 0; i < blockCount; i++)
             {
                 IDataRefHolder palette = (IDataRefHolder)Activator.CreateInstance(typeof(T), r);
                 dataLength += palette?.DataLength ?? 0;
-                Console.WriteLine($"Data Size: [This: {palette?.DataLength}, Total: {dataLength}]");
+                Console.WriteLine($"\t[{i}]: Size: {palette?.DataLength}");
             }
+            Console.WriteLine($"\tTotal Block Size: {dataLength}");
             return dataLength;
         }
 

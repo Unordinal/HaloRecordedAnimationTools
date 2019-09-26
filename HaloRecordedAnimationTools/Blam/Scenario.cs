@@ -10,18 +10,20 @@ namespace HaloRecordedAnimationTools.Blam
         private const uint rawDataPtr = 0x5F0;
         private Reflexive recordedAnimations;
         private uint recordedAnimBlockPtr;
-        private uint RecordedAnimBlockPtr
+        public uint RecordedAnimBlockPtr
         {
             get => recordedAnimBlockPtr;
-            set
+            private set
             {
                 if (recordedAnimBlockPtr != value)
-                    Console.WriteLine(recordedAnimBlockPtr + " => " + value);
+                    Console.WriteLine("\tPointer: " + recordedAnimBlockPtr + " => " + value);
                 else
                     Console.WriteLine(value);
                 recordedAnimBlockPtr = value;
             }
         }
+
+        public uint RecordedAnimDataPtr { get; private set; }
 
         public List<RecordedAnimation> RecordedAnimations { get; } = new List<RecordedAnimation>();
 
@@ -177,7 +179,7 @@ namespace HaloRecordedAnimationTools.Blam
             r.BaseStream.Position = RecordedAnimBlockPtr;
             RecordedAnimBlockPtr += (uint)((currRefl.count * PlayerStartingProfile.SIZE) + r.ReadPaletteDataLength<PlayerStartingProfile>(currRefl.count));
 
-            Console.WriteLine($"Player Starting Locations ({ReflexiveOffsets.PlayerStartingLocation})");
+            Console.WriteLine($"Player Starting Locations");
             r.BaseStream.Position = ReflexiveOffsets.PlayerStartingLocation;
             RecordedAnimBlockPtr += (uint)(r.ReadReflexive().count * PlayerStartingLocation.SIZE);
 
@@ -188,6 +190,8 @@ namespace HaloRecordedAnimationTools.Blam
             Console.WriteLine("Recorded Animations");
             r.BaseStream.Position = ReflexiveOffsets.RecordedAnimation;
             recordedAnimations = r.ReadReflexive();
+            RecordedAnimDataPtr = RecordedAnimBlockPtr + (uint)(recordedAnimations.count * RecordedAnimation.SIZE);
+
 
             Console.WriteLine($"Recorded Animations Block Pointer: {RecordedAnimBlockPtr}");
         }
@@ -208,7 +212,7 @@ namespace HaloRecordedAnimationTools.Blam
                 ChildScenario = 128,
                 PredictedResource = 300,
                 Function = 312,
-                ScenarioEditorData = 324, // technically a RawdataRef not a Reflexive but idc rn
+                ScenarioEditorData = 324, // technically a RawdataRef not a Reflexive but y'know
                 Comment = 344,
                 ObjectName = 580,
                 Scenery = 592,

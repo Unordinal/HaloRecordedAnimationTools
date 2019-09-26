@@ -4,8 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Halo Recorded Animation Tools" Height="450" Width="771" MouseDown="Window_MouseDown" Closing="Window_Closing">
+        Title="Recorded Animation Tools" Height="260" Width="295" MouseDown="Window_MouseDown" Closing="Window_Closing" ResizeMode="CanMinimize">
     <Grid x:Name="mainGrid" Focusable="True" FocusVisualStyle="{x:Null}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Menu x:Name="menu" VerticalAlignment="Top" Height="22">
             <MenuItem Header="_File" Height="22">
                 <MenuItem x:Name="miOpen" Header="_Open" Click="MiOpen_Click"/>
@@ -17,5 +20,22 @@
             </MenuItem>
             <MenuItem x:Name="miSettings" Header="_Settings" Click="MiSettings_Click"/>
         </Menu>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" Width="202" Height="22" IsEnabled="False"/>
+        <Button x:Name="button" Content="-" HorizontalAlignment="Left" Margin="244,27,0,0" VerticalAlignment="Top" Width="22" Height="22" IsEnabled="False"/>
+        <Button x:Name="button_Copy" Content="+" HorizontalAlignment="Left" Margin="217,27,0,0" VerticalAlignment="Top" Width="22" Height="22" IsEnabled="False"/>
+        <Label x:Name="label" Content="Name" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Padding="4"/>
+        <Label x:Name="label_Copy" Content="Version" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" Padding="4"/>
+        <Label x:Name="label_Copy1" Content="Raw" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Padding="4"/>
+        <Label x:Name="label_Copy2" Content="Unit control version" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top" Padding="4"/>
+        <Label x:Name="label_Copy3" Content="Length in ticks" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Padding="4"/>
+        <Label x:Name="label_Copy4" Content="Data size" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" Padding="4"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="22" Margin="132,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="134" IsEnabled="False"/>
+        <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="22" Margin="132,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+        <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Height="22" Margin="132,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+        <TextBox x:Name="textBox_Copy2" HorizontalAlignment="Left" Height="22" Margin="132,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+        <TextBox x:Name="textBox_Copy3" HorizontalAlignment="Left" Height="22" Margin="132,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+        <TextBox x:Name="textBox_Copy4" HorizontalAlignment="Left" Height="22" Margin="132,188,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
+        <Button x:Name="button_Copy1" Content="Insert" HorizontalAlignment="Left" Margin="217,188,0,0" VerticalAlignment="Top" Width="49" Height="22" IsEnabled="False"/>
+        <Button x:Name="button_Copy2" Content="Edit" HorizontalAlignment="Left" Margin="217,161,0,0" VerticalAlignment="Top" Width="49" Height="22" IsEnabled="False"/>
     </Grid>
 </Window>
