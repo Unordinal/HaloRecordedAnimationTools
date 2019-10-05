@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace HaloRecordedAnimationTools.Helpers
@@ -50,6 +51,43 @@ namespace HaloRecordedAnimationTools.Helpers
             if (string.IsNullOrWhiteSpace(str))
                 return fallback;
             return str;
+        }
+
+        // https://stackoverflow.com/a/44528111/
+        public static void InsertIntoFile(FileStream fs, long offset, byte[] extraBytes)
+        {
+            const int maxBufferSize = 1024 * 4;
+
+            if (offset < 0 || offset > fs.Length)
+                throw new ArgumentOutOfRangeException("Offset is out of range.");
+
+            int bufferSize = maxBufferSize;
+            long temp = fs.Length - offset;
+            if (temp <= maxBufferSize)
+                bufferSize = (int)temp;
+
+            byte[] buffer = new byte[bufferSize];
+            long currentPosToRead = fs.Length;
+            int numOfBytesToRead;
+
+            while (true)
+            {
+                numOfBytesToRead = bufferSize;
+                temp = currentPosToRead - offset;
+                if (temp < bufferSize)
+                    numOfBytesToRead = (int)temp;
+
+                currentPosToRead -= numOfBytesToRead;
+                fs.Position = currentPosToRead;
+                fs.Read(buffer, 0, numOfBytesToRead);
+                fs.Position = currentPosToRead + extraBytes.Length;
+                fs.Write(buffer, 0, numOfBytesToRead);
+
+                if (temp <= bufferSize)
+                    break;
+            }
+            fs.Position = offset;
+            fs.Write(extraBytes, 0, extraBytes.Length);
         }
 
         // https://stackoverflow.com/a/7162873/

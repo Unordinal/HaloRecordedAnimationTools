@@ -7,7 +7,7 @@ namespace HaloRecordedAnimationTools.Helpers
     /// <summary>
     /// Provides methods for checking a <see cref="Key"/>'s state.
     /// </summary>
-    public static class Keybinds
+    public static class KeyHelper
     {
         [Flags]
         public enum Flags

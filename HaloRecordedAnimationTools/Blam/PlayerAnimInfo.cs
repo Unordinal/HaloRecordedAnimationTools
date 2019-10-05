@@ -7,31 +7,48 @@ namespace HaloRecordedAnimationTools.Blam
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct PlayerAnimInfo
     {
+        /// <summary> The player's action state flags (crouching, attacking, throwing a grenade, etc). </summary>
         [Flags]
-        public enum PlayerActionStateFlags : ushort // Rename later
+        public enum PlayerActionStateFlags : ushort
         {
-            None = 0,
+            /// <summary> Player is not performing an action. </summary>
+            None        = 0,
 
-            Crouch = 1 << 0,
-            Jump = 1 << 1,
-            Flashlight = 1 << 4,
-            Action = 1 << 6,
-            Melee = 1 << 7,
+            /// <summary> Player is crouching. </summary>
+            Crouch      = 1 << 0,
+            /// <summary> Player is jumping. </summary>
+            Jump        = 1 << 1,
+            /// <summary> Player is pressing the flashlight button. </summary>
+            Flashlight  = 1 << 4,
+            /// <summary> Player is pressing the action button. </summary>
+            Action      = 1 << 6,
+            /// <summary> Player is meleeing. </summary>
+            Melee       = 1 << 7,
 
-            Reload = 1 << 10,
-            Attack = 1 << 11,
-            Grenade = 1 << 12,
-            ActionSwap = 1 << 13
+            /// <summary> Player is pressing reload. </summary>
+            Reload      = 1 << 10,
+            /// <summary> Player is pressing their primary attack button. </summary>
+            Attack      = 1 << 11,
+            /// <summary> Player is pressing their grenade (secondary attack) button. </summary>
+            Grenade     = 1 << 12,
+            /// <summary> Player is pressing the action/swap button. </summary>
+            ActionSwap  = 1 << 13
         }
 
         public const uint localPlayerPtr = 0x692DB0; // Local player
         public const uint playerControlsOffset = 0xF4; // Start of control presses (action, flashlight, etc)
 
+        /// <summary> Player's current action states. </summary>
         public PlayerActionStateFlags playerActionStateFlag;
+        /// <summary> Player's forward unit vector. </summary>
         public float playerForward;
+        /// <summary> Player's left unit vector. </summary>
         public float playerLeft;
+        /// <summary> Player's current weapon slot. </summary>
         public byte playerWeaponSlot;
+        /// <summary> Player's aim vector. </summary>
         public Vector3 playerAimVector;
+        /// <summary> Player's world position. </summary>
         public Vector3 playerPosition;
 
         public bool Crouch => playerActionStateFlag.HasFlag(PlayerActionStateFlags.Crouch);

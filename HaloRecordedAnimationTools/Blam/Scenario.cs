@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using HaloRecordedAnimationTools.Helpers;
 using HaloRecordedAnimationTools.IO;
 
@@ -9,6 +10,8 @@ namespace HaloRecordedAnimationTools.Blam
     {
         private const uint rawDataPtr = 0x5F0;
         private Reflexive recordedAnimations;
+        private int recordedAnimationsSize;
+        private int recordedAnimationsDataSize;
         private uint recordedAnimBlockPtr;
         public uint RecordedAnimBlockPtr
         {
@@ -23,12 +26,15 @@ namespace HaloRecordedAnimationTools.Blam
             }
         }
 
+        public readonly string scnrPath;
         public uint RecordedAnimDataPtr { get; private set; }
 
         public List<RecordedAnimation> RecordedAnimations { get; } = new List<RecordedAnimation>();
+        public List<byte[]> RecordedAnimationsData { get; } = new List<byte[]>();
 
-        public Scenario(EndianReader r)
+        public Scenario(string scnrPath, EndianReader r)
         {
+            this.scnrPath = scnrPath;
             FindPointerToAnims(r);
             ReadRecordedAnimations(r);
         }
@@ -190,6 +196,7 @@ namespace HaloRecordedAnimationTools.Blam
             Console.WriteLine("Recorded Animations");
             r.BaseStream.Position = ReflexiveOffsets.RecordedAnimation;
             recordedAnimations = r.ReadReflexive();
+
             RecordedAnimDataPtr = RecordedAnimBlockPtr + (uint)(recordedAnimations.count * RecordedAnimation.SIZE);
 
 
@@ -202,7 +209,50 @@ namespace HaloRecordedAnimationTools.Blam
             r.BaseStream.Position = RecordedAnimBlockPtr;
 
             for (int i = 0; i < recordedAnimations.count; i++)
-                RecordedAnimations.Add(r.ReadRecordedAnimation());
+            {
+                var anim = r.ReadRecordedAnimation();
+                RecordedAnimations.Add(anim);
+            }
+
+            foreach (var anim in RecordedAnimations)
+            {
+                RecordedAnimationsData.Add(r.ReadBytes(anim.DataLength));
+            }
+
+            foreach (var anim in RecordedAnimations)
+            {
+                recordedAnimationsSize += anim.length;
+                recordedAnimationsDataSize += anim.DataLength;
+            }
+        }
+
+        public void WriteAnimations()
+        {
+            byte[] before;
+            byte[] after;
+
+            using (var r = new EndianReader(new FileStream(scnrPath, FileMode.Open, FileAccess.Read), Endian.Big))
+            {
+                before = r.ReadBytes((int)RecordedAnimBlockPtr);
+
+                int animsSize = recordedAnimationsSize + recordedAnimationsDataSize;
+                r.BaseStream.Position = RecordedAnimBlockPtr + animsSize;
+
+                after = r.ReadBytes((int)(r.BaseStream.Length - (RecordedAnimBlockPtr + animsSize)));
+            }
+
+            using (var w = new EndianWriter(new FileStream(scnrPath, FileMode.Create, FileAccess.ReadWrite), Endian.Big))
+            {
+                w.Write(before);
+
+                foreach (var anim in RecordedAnimations)
+                    w.Write(anim);
+
+                foreach (var animData in RecordedAnimationsData) // Writes each animation's event stream data.
+                    w.Write(animData);
+
+                w.Write(after);
+            }
         }
 
         public struct ReflexiveOffsets

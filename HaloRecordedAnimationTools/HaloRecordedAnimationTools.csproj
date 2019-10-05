@@ -59,7 +59,8 @@
     <Compile Include="Blam\Constants.cs" />
     <Compile Include="Helpers\ByteConversions.cs" />
     <Compile Include="Helpers\EndianReaderExtensions.cs" />
-    <Compile Include="Helpers\Keybinds.cs" />
+    <Compile Include="Helpers\EndianWriterExtensions.cs" />
+    <Compile Include="Helpers\KeyHelper.cs" />
     <Compile Include="Helpers\Memory.cs" />
     <Compile Include="IO\Endian.cs" />
     <Compile Include="IO\EndianReader.cs" />

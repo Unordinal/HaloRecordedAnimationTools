@@ -11,17 +11,19 @@ using System.ComponentModel;
 
 namespace HaloRecordedAnimationTools
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    // I should probably adhere to MVVM or whatever but I'm at my motivation's mercy.
+    //
+    // I prefer finishing something and getting it working before going back and making 
+    // it pretty so I'm planning on refactoring this whole thing but I'll probably get it 
+    // working and then end up not touching it unless something's broken because ^.
     public partial class MainWindow : Window
     {
         private SettingsWindow settingsWindow;
         private bool attached = false;
-        private int tickRate;
         private DispatcherTimer updateTimer;
-        private DispatcherTimer keyListener;
-        private Key toggleRecording = Key.None;
+#pragma warning disable IDE0052 // Remove unread private members
+        private readonly DispatcherTimer keyListener;
+#pragma warning restore IDE0052 // Remove unread private members
         private const string scenarioFilter =
             "Halo 1 Scenario (*.scenario)|*.scenario|" +
             "All files (*.*)|*.*";
@@ -29,13 +31,13 @@ namespace HaloRecordedAnimationTools
         public MainWindow()
         {
             InitializeComponent();
-            keyListener = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, CheckKeyDown, Dispatcher);
+            keyListener = new DispatcherTimer(TimeSpan.FromMilliseconds(5), DispatcherPriority.Normal, CheckKeyDown, Dispatcher);
         }
 
         private void CheckKeyDown(object sender, EventArgs e)
         {
             if (!MiscExtensions.ApplicationHasFocus())
-                if (Keybinds.IsKeyDown(toggleRecording))
+                if (KeyHelper.IsKeyDown(KeyInterop.KeyFromVirtualKey(Properties.Settings.Default.recordKey)))
                     ToggleRecording();
         }
 
@@ -129,10 +131,9 @@ namespace HaloRecordedAnimationTools
         private void OpenScenario(string filePath)
         {
             Scenario scnr;
-            using (EndianReader r = new EndianReader(File.Open(filePath, FileMode.Open)))
+            using (EndianReader r = new EndianReader(File.Open(filePath, FileMode.Open), Endian.Big))
             {
-                r.Endianness = Endian.Big;
-                scnr = new Scenario(r);
+                scnr = new Scenario(filePath, r);
             }
         }
 
@@ -169,6 +170,7 @@ namespace HaloRecordedAnimationTools
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            base.OnClosing(e);
             settingsWindow?.Close();
             Application.Current.Shutdown();
         }

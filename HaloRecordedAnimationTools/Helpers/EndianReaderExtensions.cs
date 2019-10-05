@@ -24,9 +24,6 @@ namespace HaloRecordedAnimationTools.Helpers
         public static RecordedAnimation ReadRecordedAnimation(this EndianReader r) =>
             new RecordedAnimation(r);
 
-        public static Scenario ReadScenario(this EndianReader r) =>
-            new Scenario(r);
-
         public static TagRef ReadTagRef(this EndianReader r) =>
             new TagRef(r);
 
